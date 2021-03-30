@@ -4,12 +4,12 @@ export default yup.object().shape({
     username: yup
         .string()
         .required('username is required')
-        .min(3, 'username must be longer than 3 characters'),
+        .min(3, '*username must be longer than 3 characters'),
     password: yup
         .string()
         .required('password is required')
-        .min(5, 'password must be longer than 5 characters'),
+        .min(5, '*password must be longer than 5 characters'),
     phoneNumber: yup
         .string()
-        .required('phonenum is required')
+        .required('*phone number is required')
 });

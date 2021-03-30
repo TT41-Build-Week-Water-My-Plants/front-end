@@ -1,28 +1,111 @@
 import React, { useState, useEffect } from 'react';
 import schema from '../validation/loginSchema';
 import * as yup from 'yup';
-// import axios from 'axios';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
-// const StyledButton = styled.button`
-//     padding: 6px 10px;
-//     margin: 5px;
-//     border: none;
-//     border-radius: 3px;
-//     color: white;
-// `
+const GlobalStyle = createGlobalStyle`
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+    /* In order for layout border you have to comment this out, because selecting the element
+    by it's name is more specific than the universal selector */
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+* {
+    box-sizing: border-box;
+	  max-width: 100%;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+  line-height: 1.5;
+background-color: #f5f5f5;
+
+  /* rems calculated off of the font size on HTML */
+font-size: 1.8rem;
+  color: #4f4f4f;
+  height: 100vh;
+}
+`
+
+
+const LoginContainer = styled.div`
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-evenly;
+`
+
+const Div = styled.div`
+  border: 1px solid red;
+`
+
+const Form = styled.form`
+  border: 1px solid red;
+`
+
+const Title = styled.h1`
+  border: 1px solid red;
+`
+
+const Label = styled.label`
+  border: 1px solid red;
+`
+
+const Input = styled.input`
+  border: 1px solid red;
+`
 
 const SubmitButton = styled.button`
-    padding: 6px 10px;
-    margin: 5px;
-    border: none;
-    border-radius: 3px;
-    color: blue;
-`;
-
-// const StyledForm = styled.div`
-//     border: 1px solid red;
-// `;
+  
+  border: 1px solid red;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+`
 
 const initialFormValues = {
   username: "",
@@ -98,6 +181,7 @@ export default function LoginPage(props) {
   useEffect(() => {
     schema.isValid(formValues).then(valid => {
       setDisabled(!valid);
+      console.log(disabled);
     });
   }, [formValues])
 
@@ -116,45 +200,46 @@ export default function LoginPage(props) {
   // SHOULD POSTNEWUSER LOGIC BE IN THIS COMPONENT?
 
   return(
-    <div className='login-container'>
-      <h1>water my plants</h1>
+    <LoginContainer>
+      <GlobalStyle />
+      <Title>water my plants</Title>
       {/* <StyledForm> */}
         {/* CONFUSED WHY ADDING VALUES  */}
-        <form className="form-container" onSubmit={ onSubmit }>
-          <label htmlFor='username'>
+        <Form className="form-container" onSubmit={ onSubmit }>
+          <Label htmlFor='username'>
             Username:
-          </label>
-          <input
+          </Label>
+          <Input
               value={formValues.username}
               name='username'
               type='text'
               onChange={onChange}
           />
-          <div>{ formErrors.username }</div>
-          <label htmlFor='password'>
+          <Div>{ formErrors.username }</Div>
+          <Label htmlFor='password'>
               Password:
-          </label>
-          <input
+          </Label>
+          <Input
               value={formValues.password}
               name='password'
               type='password'
               onChange={onChange}
           />
-          <div>{ formErrors.password }</div>
-          <label htmlFor='password'>
+          <Div>{ formErrors.password }</Div>
+          <Label htmlFor='password'>
               Phone Number:
-          </label>
-          <input
+          </Label>
+          <Input
               value={formValues.phoneNumber}
               name='phoneNumber'
               type='text'
               onChange={onChange}
           />
-          <div>{ formErrors.phoneNumber }</div>
+          <Div>{ formErrors.phoneNumber }</Div>
           <SubmitButton disabled={disabled}>Sign In</SubmitButton>
           {/* <button id='submitBtn' disabled={ disabled }>sign in</button> */}
-        </form>
+        </Form>
       {/* </StyledForm> */}
-    </div>
+    </LoginContainer>
   )
 };
