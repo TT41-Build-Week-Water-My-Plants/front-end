@@ -131,8 +131,6 @@ export default function LoginPage(props) {
               onChange={onChange}
           />
           <div>{ formErrors.username }</div>
-          <br/>
-          <br/>
           <label htmlFor='password'>
               Password:
           </label>
@@ -143,8 +141,6 @@ export default function LoginPage(props) {
               onChange={onChange}
           />
           <div>{ formErrors.password }</div>
-          <br/>
-          <br/>
           <label htmlFor='password'>
               Phone Number:
           </label>
@@ -154,8 +150,6 @@ export default function LoginPage(props) {
               type='text'
               onChange={onChange}
           />
-          <br/>
-          <br/>
           <div>{ formErrors.phoneNumber }</div>
           <SubmitButton disabled={disabled}>Sign In</SubmitButton>
           {/* <button id='submitBtn' disabled={ disabled }>sign in</button> */}
