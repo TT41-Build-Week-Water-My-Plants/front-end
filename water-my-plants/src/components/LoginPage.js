@@ -61,24 +61,43 @@ html {
 
 body {
   line-height: 1.5;
-background-color: #f5f5f5;
+
 
   /* rems calculated off of the font size on HTML */
-font-size: 1.8rem;
+  font-size: 1.8rem;
   color: #4f4f4f;
   height: 100vh;
 }
 `
 
 
-const LoginContainer = styled.div`
+const Container = styled.div`
   border: 1px solid red;
   display: flex;
-  justify-content: space-evenly;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  background-color: #f5f5f5;
+  background-image: url(../assets/background.jpg);
+`
+
+const LoginContainer = styled.div`
+  border: 3px solid lightgray;
+  padding: 5rem;
+  border-radius: 7px;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  letter-spacing: 2px;
+  height: 60vh;
+  width: 30%;
 `
 
 const Div = styled.div`
   border: 1px solid red;
+  font-size: 1.2rem;
+  color: red;
+  padding-bottom: 1.2rem;
 `
 
 const Form = styled.form`
@@ -87,6 +106,10 @@ const Form = styled.form`
 
 const Title = styled.h1`
   border: 1px solid red;
+  text-align: center;
+  font-size: 5rem;
+  padding: 2rem;
+  font-family: sans-serif;
 `
 
 const Label = styled.label`
@@ -95,16 +118,19 @@ const Label = styled.label`
 
 const Input = styled.input`
   border: 1px solid red;
+  border-radius: 3px;
 `
 
 const SubmitButton = styled.button`
-  
+  display: block;
   border: 1px solid red;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   font-size: 16px;
   border-radius: 5px;
+  margin: 0 auto;
+  left: 50%;
 `
 
 const initialFormValues = {
@@ -200,8 +226,9 @@ export default function LoginPage(props) {
   // SHOULD POSTNEWUSER LOGIC BE IN THIS COMPONENT?
 
   return(
-    <LoginContainer>
+    <Container>
       <GlobalStyle />
+      <LoginContainer>
       <Title>water my plants</Title>
       {/* <StyledForm> */}
         {/* CONFUSED WHY ADDING VALUES  */}
@@ -239,7 +266,7 @@ export default function LoginPage(props) {
           <SubmitButton disabled={disabled}>Sign In</SubmitButton>
           {/* <button id='submitBtn' disabled={ disabled }>sign in</button> */}
         </Form>
-      {/* </StyledForm> */}
-    </LoginContainer>
+      </LoginContainer>
+    </Container>
   )
 };
