@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import styled, { keyframes } from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
 import image from '../assets/background.jpg'
+import { useHistory } from 'react-router-dom';
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -168,6 +169,8 @@ export default function LoginPage(props) {
   // NEW STATE FOR USERS
   const [users, setUsers] = useState(initialUsers);
 
+  const { push } = useHistory();
+
   const inputChange = (name, value) => {
     // console.log('Test: ', name, value);
     yup
@@ -206,7 +209,8 @@ export default function LoginPage(props) {
     console.log(users)
     // setUser(newLogin);
     addUser(newLogin);
-    console.log(users)
+    console.log(users);
+    push('/plants');
   };
 
   useEffect(() => {

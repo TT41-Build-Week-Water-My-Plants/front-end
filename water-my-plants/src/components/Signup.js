@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import schema from '../validation/signupSchema'
 import * as yup from 'yup'
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom';
 
 const initialForm = {
   username: '',
@@ -21,7 +22,8 @@ export default function Signup () {
 
 const [formValues, setFormValues] = useState(initialForm);
 const [formErrors, setFormErrors] = useState(initialFormErrors);
-const [disabled, setDisabled] = useState(initialDisabled)
+const [disabled, setDisabled] = useState(initialDisabled);
+const { push } = useHistory();
 
 const updateForm = (inputName, inputValue) =>{
   yup
@@ -75,6 +77,7 @@ useEffect(() => {
         evt.preventDefault()
         submitForm()
         setFormValues(initialForm)
+        push('/login');
     }
 
 return (
