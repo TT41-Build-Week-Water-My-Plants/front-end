@@ -5,7 +5,14 @@ import PlantsList from "./components/PlantsList";
 import AddPlantForm from "./components/AddPlantForm";
 
 function App() {
-  return <div></div>;
+  return (
+    <div className="App">
+      <header className="App-header">
+
+        <LoginPage />
+      </header>
+    </div>
+  );
 }
 
 export default App;
