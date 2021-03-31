@@ -3,6 +3,7 @@ import schema from '../validation/loginSchema';
 import * as yup from 'yup';
 import styled, { keyframes } from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
+import image from '../assets/background.jpg'
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -51,8 +52,8 @@ table {
 }
 
 * {
-    box-sizing: border-box;
-	  max-width: 100%;
+  box-sizing: border-box;
+	max-width: 100%;
 }
 
 html {
@@ -61,8 +62,6 @@ html {
 
 body {
   line-height: 1.5;
-
-
   /* rems calculated off of the font size on HTML */
   font-size: 1.8rem;
   color: #4f4f4f;
@@ -70,42 +69,41 @@ body {
 }
 `
 
-
 const Container = styled.div`
   border: 1px solid red;
   display: flex;
   width: 100%;
   height: 100vh;
   justify-content: center;
-  background-color: #f5f5f5;
-  background-image: url(../assets/background.jpg);
+  align-items: center;
+  background-size: cover;
+  background-image: url(${image});
 `
 
 const LoginContainer = styled.div`
   border: 3px solid lightgray;
+  background-color: #f5f5f5;
+  border-bottom: 3px solid darkgray;
   padding: 5rem;
   border-radius: 7px;
   font-family: sans-serif;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
-  letter-spacing: 2px;
   height: 60vh;
   width: 30%;
 `
 
 const Div = styled.div`
-  border: 1px solid red;
   font-size: 1.2rem;
   color: red;
   padding-bottom: 1.2rem;
 `
 
-const Form = styled.form`
-  border: 1px solid red;
-`
-
 const Title = styled.h1`
-  border: 1px solid red;
+  color: #909090;
+  letter-spacing: 2px;
   text-align: center;
   font-size: 5rem;
   padding: 2rem;
@@ -113,24 +111,31 @@ const Title = styled.h1`
 `
 
 const Label = styled.label`
-  border: 1px solid red;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 `
 
 const Input = styled.input`
-  border: 1px solid red;
   border-radius: 3px;
 `
 
 const SubmitButton = styled.button`
+  background-color: #78e08f;
   display: block;
-  border: 1px solid red;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   font-size: 16px;
   border-radius: 5px;
   margin: 0 auto;
-  left: 50%;
+`
+const SignUpLink = styled.a`
+  display: block;
+  padding: 1rem;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 5px;
+  margin: 0 auto;
 `
 
 const initialFormValues = {
@@ -232,7 +237,7 @@ export default function LoginPage(props) {
       <Title>water my plants</Title>
       {/* <StyledForm> */}
         {/* CONFUSED WHY ADDING VALUES  */}
-        <Form className="form-container" onSubmit={ onSubmit }>
+        <form onSubmit={ onSubmit }>
           <Label htmlFor='username'>
             Username:
           </Label>
@@ -264,8 +269,9 @@ export default function LoginPage(props) {
           />
           <Div>{ formErrors.phoneNumber }</Div>
           <SubmitButton disabled={disabled}>Sign In</SubmitButton>
+          <SignUpLink href='#'>Create an Account</SignUpLink>
           {/* <button id='submitBtn' disabled={ disabled }>sign in</button> */}
-        </Form>
+        </form>
       </LoginContainer>
     </Container>
   )
