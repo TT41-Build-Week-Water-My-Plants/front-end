@@ -13,7 +13,7 @@ function PlantsList(props){
         axiosWithAuth()
         .get('/api/plants')
         .then((res) => {
-            setPlants(res)})
+            setPlants(res.data)})
         .catch(err => console.log({err}));
     }, []);
 
@@ -27,9 +27,16 @@ function PlantsList(props){
             <PlantNav />
             <h3>Plant List</h3>
             {plants.map(plant => (
-                <p key={plant.id}>{plant.name}</p>
+                <div className='plant'>
+                    <p>Nickname: {plant.nickname}</p>
+                    <p>Species: {plant.species}</p>
+                    <p>H20 Frequency: {plant.h2o_frequency}</p>
+                    <img className='plantimg' src={plant.image} alt='' height='150' width='150' />
+                    <button>Edit Plant</button>
+                    <button>Remove Plant</button>
+                </div>
             ))}
-            <Link to={`/edit-plant/${plants.id}`}>Edit Plant</Link>
+            {/* <Link to={`/edit-plant/${plants.plant.id}`}>Edit Plant</Link> */}
             <button onClick={handleAddPlant}>Add New Plant</button>
         </div>
     )
