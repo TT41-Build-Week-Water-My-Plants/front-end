@@ -5,6 +5,7 @@ import styled, { keyframes } from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
 import image from '../assets/background.jpg'
 import { useHistory } from 'react-router-dom';
+import axios from 'axios'
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -164,36 +165,36 @@ export default function LoginPage(props) {
 
   // ADD STATE HERE
   const [formValues, setFormValues] = useState(initialFormValues);
-  const [formErrors, setFormErrors] = useState(initialFormErrors);
+  // const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [disabled, setDisabled] = useState(initialDisabled);
   // NEW STATE FOR USERS
   const [users, setUsers] = useState(initialUsers);
 
   const { push } = useHistory();
 
-  const inputChange = (name, value) => {
-    // console.log('Test: ', name, value);
-    yup
-      .reach(schema, name)
-      .validate(value)
-      .then(() => {
-        setFormErrors({
-          ...formErrors, [name]: ""
-        });
-      })
-      .catch((err) => {
-        setFormErrors({
-          ...formErrors,
-          [name]: err.errors[0] // formErrors[0]?
-        })
-        // console.log(err, formErrors);
-      });
-      setFormValues({
-        ...formValues,
-        [name]: value
-      })
-      // console.log(formErrors);
-  };
+  // const inputChange = (name, value) => {
+  //   // console.log('Test: ', name, value);
+  //   yup
+  //     .reach(schema, name)
+  //     .validate(value)
+  //     .then(() => {
+  //       setFormErrors({
+  //         ...formErrors, [name]: ""
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       setFormErrors({
+  //         ...formErrors,
+  //         [name]: err.errors[0] // formErrors[0]?
+  //       })
+  //       // console.log(err, formErrors);
+  //     });
+  //     setFormValues({
+  //       ...formValues,
+  //       [name]: value
+  //     })
+  //     // console.log(formErrors);
+  // };
 
   // const formSubmit = () => {};
 
@@ -201,36 +202,52 @@ export default function LoginPage(props) {
     e.preventDefault();
     // console.log('This is event: ', e.target);
     // SET FORMVALUES TO STATE
-    const newLogin = {
-      username: formValues.username.trim(),
-      password: formValues.password.trim(),
-      phoneNumber: formValues.phoneNumber.trim()
-    };
-    console.log(users)
-    // setUser(newLogin);
-    addUser(newLogin);
-    console.log(users);
-    push('/plants');
+
+    axios
+    .post('https://plants-buildweek41.herokuapp.com/api/auth/login', users)
+    .then((res) => {
+        localStorage.setItem('token', res.data.token);
+        push('./plants');
+        console.log(res.data.token);
+    })
+    .catch((err) => {
+        console.log('Username or password not valid.', err);
+    })
+
+    // const newLogin = {
+    //   username: formValues.username.trim(),
+    //   password: formValues.password.trim(),
+    //   phoneNumber: formValues.phoneNumber.trim()
+    // };
+    // console.log(users)
+    // // setUser(newLogin);
+    // addUser(newLogin);
+    // console.log(users);
+    // push('/plants');
   };
 
-  useEffect(() => {
-    schema.isValid(formValues).then(valid => {
-      setDisabled(!valid);
-      console.log(disabled);
-    });
-  }, [formValues])
+  // useEffect(() => {
+  //   schema.isValid(formValues).then(valid => {
+  //     setDisabled(!valid);
+  //     console.log(disabled);
+  //   });
+  // }, [formValues])
 
   const onChange = (e) => {
-    const { name, value } = e.target;
-    // console.log(name, value);
-    inputChange(name, value);
+    // const { name, value } = e.target;
+    // // console.log(name, value);
+    // inputChange(name, value);
+    setUsers({
+      ...users,
+      [e.target.name]: e.target.value,
+    })
   };
 
   // ADD USER HELPER
-  const addUser = (newUser) => {
-    setUsers([...users, newUser]); // WHY DID THIS WORK HERE? -- this didn't work inside the onSubmit function, but works as a helper function
-    setFormValues(initialFormValues);
-  };
+  // const addUser = (newUser) => {
+  //   setUsers([...users, newUser]); // WHY DID THIS WORK HERE? -- this didn't work inside the onSubmit function, but works as a helper function
+  //   setFormValues(initialFormValues);
+  // };
 
   // SHOULD POSTNEWUSER LOGIC BE IN THIS COMPONENT?
 
@@ -246,33 +263,33 @@ export default function LoginPage(props) {
             Username:
           </Label>
           <Input
-              value={formValues.username}
+              value={users.username}
               name='username'
               type='text'
               onChange={onChange}
           />
-          <Div>{ formErrors.username }</Div>
+          {/* <Div>{ formErrors.username }</Div> */}
           <Label htmlFor='password'>
               Password:
           </Label>
           <Input
-              value={formValues.password}
+              value={users.password}
               name='password'
               type='password'
               onChange={onChange}
           />
-          <Div>{ formErrors.password }</Div>
+          {/* <Div>{ formErrors.password }</Div> */}
           <Label htmlFor='password'>
               Phone Number:
           </Label>
           <Input
-              value={formValues.phoneNumber}
+              value={users.phoneNumber}
               name='phoneNumber'
               type='text'
               onChange={onChange}
           />
-          <Div>{ formErrors.phoneNumber }</Div>
-          <SubmitButton disabled={disabled}>Sign In</SubmitButton>
+          {/* <Div>{ formErrors.phoneNumber }</Div> */}
+          <SubmitButton >Sign In</SubmitButton>
           <SignUpLink href='#'>Create an Account</SignUpLink>
           {/* <button id='submitBtn' disabled={ disabled }>sign in</button> */}
         </form>
