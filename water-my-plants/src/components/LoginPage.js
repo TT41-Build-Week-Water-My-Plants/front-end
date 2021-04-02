@@ -143,13 +143,13 @@ const SignUpLink = styled.a`
 const initialFormValues = {
   username: "",
   password: "",
-  phoneNumber: ""
+  phone_number: ""
 };
 
 const initialFormErrors = {
   username: "",
   password: "",
-  phoneNumber: ""
+  phone_number: ""
 };
 
 const initialUsers = [];
@@ -283,8 +283,8 @@ export default function LoginPage(props) {
               Phone Number:
           </Label>
           <Input
-              value={users.phoneNumber}
-              name='phoneNumber'
+              value={users.phone_number}
+              name='phone_number'
               type='text'
               onChange={onChange}
           />

@@ -3,16 +3,17 @@ import schema from '../validation/signupSchema'
 import * as yup from 'yup'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const initialForm = {
   username: '',
-  phoneNumber: '',
+  phone_number: '',
   password: '',
 }
 
 const initialFormErrors = {
   username: '',
-  phoneNumber: '',
+  phone_number: '',
   password: '',
 }
 
@@ -20,65 +21,84 @@ const initialDisabled = true
 
 export default function Signup () {
 
-const [formValues, setFormValues] = useState(initialForm);
+const [user, setUser] = useState(initialForm);
 const [formErrors, setFormErrors] = useState(initialFormErrors);
 const [disabled, setDisabled] = useState(initialDisabled);
 const { push } = useHistory();
 
-const updateForm = (inputName, inputValue) =>{
-  yup
-  .reach(schema, inputName)
+// const updateForm = (inputName, inputValue) =>{
+//   yup
+//   .reach(schema, inputName)
 
-  .validate(inputValue)
-  .then(() => {
-    setFormErrors({
-      ...formErrors, [inputName]: "",
-    });
-  })
-  .catch(err => {
-    setFormErrors({
-      ...formErrors, [inputName]: err.errors[0],
-    });
-  });
+//   .validate(inputValue)
+//   .then(() => {
+//     setFormErrors({
+//       ...formErrors, [inputName]: "",
+//     });
+//   })
+//   .catch(err => {
+//     setFormErrors({
+//       ...formErrors, [inputName]: err.errors[0],
+//     });
+//   });
 
-  setFormValues({...formValues, [inputName]: inputValue,})
+//   setFormValues({...formValues, [inputName]: inputValue,})
 
-};
+// };
 
-const submitForm = () =>{
+// const submitForm = () =>{
 
-  const newMember =  {
-    username: formValues.username.trim(),
-    phoneNumber: formValues.phoneNumber.trim(),
-    password: formValues.password.trim(),
+//   const newMember =  {
+//     username: formValues.username.trim(),
+//     phoneNumber: formValues.phoneNumber.trim(),
+//     password: formValues.password.trim(),
   
-  }
-  setFormValues(newMember)
-  console.log(newMember)
-}
-useEffect(() => {
-  schema.isValid(formValues).then(valid => {
-    setDisabled(!valid);
-  });
-}, [formValues])
+//   }
+//   setFormValues(newMember)
+//   console.log(newMember)
+// }
+// useEffect(() => {
+//   schema.isValid(formValues).then(valid => {
+//     setDisabled(!valid);
+//   });
+// }, [formValues])
 
 
 
-    const onChange = evt => {
+//     const onChange = evt => {
     
-       const {name, value} = evt.target
+//        const {name, value} = evt.target
 
-       updateForm(name, value)
+//        updateForm(name, value)
       
-    }
+//     }
 
-    const onSubmit = evt => {
+//     const onSubmit = evt => {
 
-        evt.preventDefault()
-        submitForm()
-        setFormValues(initialForm)
-        push('/login');
-    }
+//         evt.preventDefault()
+//         submitForm()
+//         setFormValues(initialForm)
+//         push('/login');
+//     }
+
+const onChange = (e) => {
+  setUser({
+    ...user,
+    [e.target.name]: e.target.value
+  })}
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    axios
+    .post('https://plants-buildweek41.herokuapp.com/api/auth/register', user)
+    .then((res) => {
+      push('./plants');
+      console.log(res.data);
+    })
+    .catch((err) =>{
+      console.log('Username or password not valid, must be unique username.', err);
+    })
+  }
 
 return (
   <form className = 'form container' onSubmit={onSubmit}>
@@ -89,19 +109,19 @@ return (
                     <StyledInput
                         name='username'
                         type = 'text' 
-                        value = {formValues.username}
+                        value = {user.username}
                         onChange={onChange}
                         placeholder='Type username'
                         maxLength = '30'
                         />
                 </label>
               </div>
-              <div className = 'phoneNumber'>
+              <div className = 'phone_number'>
                 <label>Phone Number
-                    <StyledInput name = 'phoneNumber' 
+                    <StyledInput name = 'phone_number' 
                     type = 'tel'
 		    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    value = {formValues.phoneNumber}
+                    value = {user.phone_number}
                     onChange = {onChange}
                     placeholder = '###-###-####'/>
                 </label>
@@ -111,7 +131,7 @@ return (
                     <StyledInput
                         name='password'
                         type = 'text' 
-                        value = {formValues.password}
+                        value = {user.password}
                         onChange={onChange}
                         placeholder='Type Password'
                         maxLength = '30'
@@ -121,7 +141,7 @@ return (
 
 
                 <div className = 'submit'>
-                    <StyledButton disabled={disabled}>Submit</StyledButton>
+                    <StyledButton>Submit</StyledButton>
                 </div>
 			            <StyledErrors className='errors'>
                     
