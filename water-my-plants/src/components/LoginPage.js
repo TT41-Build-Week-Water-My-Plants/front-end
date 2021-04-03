@@ -52,16 +52,13 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
 * {
   box-sizing: border-box;
 	max-width: 100%;
 }
-
 html {
 	font-size: 62.5%;
 }
-
 body {
   line-height: 1.5;
   /* rems calculated off of the font size on HTML */
@@ -202,7 +199,6 @@ export default function LoginPage(props) {
     e.preventDefault();
     // console.log('This is event: ', e.target);
     // SET FORMVALUES TO STATE
-
     axios
     .post('https://plants-buildweek41.herokuapp.com/api/auth/login', users)
     .then((res) => {
@@ -285,6 +281,7 @@ export default function LoginPage(props) {
           <Input
               value={users.phone_number}
               name='phone_number'
+
               type='text'
               onChange={onChange}
           />

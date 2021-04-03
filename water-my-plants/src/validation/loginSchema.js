@@ -8,7 +8,7 @@ export default yup.object().shape({
     password: yup
         .string()
         .required('*password is required')
-        .min(5, '*password must be longer than 5 characters'),
+        .min(3, '*password must be longer than 5 characters'),
     phoneNumber: yup
         .string()
         .required('*phone number is required')
