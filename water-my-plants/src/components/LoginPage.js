@@ -140,13 +140,13 @@ const SignUpLink = styled.a`
 const initialFormValues = {
   username: "",
   password: "",
-  phoneNumber: ""
+  phone_number: ""
 };
 
 const initialFormErrors = {
   username: "",
   password: "",
-  phoneNumber: ""
+  phone_number: ""
 };
 
 const initialUsers = [];
@@ -199,7 +199,6 @@ export default function LoginPage(props) {
     e.preventDefault();
     // console.log('This is event: ', e.target);
     // SET FORMVALUES TO STATE
-    
     axios
     .post('https://plants-buildweek41.herokuapp.com/api/auth/login', users)
     .then((res) => {
@@ -280,8 +279,9 @@ export default function LoginPage(props) {
               Phone Number:
           </Label>
           <Input
-              value={users.phoneNumber}
-              name='phoneNumber'
+              value={users.phone_number}
+              name='phone_number'
+
               type='text'
               onChange={onChange}
           />
