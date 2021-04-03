@@ -1,71 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {useHistory} from 'react-router';
-import {axiosWithAuth} from '../utils/axiosWithAuth';
+import { connect } from "react-redux";
+import {setError, addPlant} from './../Actions/actions';
 
-const initialValues = {
-    id: 0,
-    nickname: "",
-    species: "",
-    h2oFrequency: "",
-};
 
-function AddPlantForm() {
-    const {push} = useHistory();
-    const [formValues, setFormValues] = React.useState(initialValues);
-
-    const handleChanges = e => {
-        setFormValues({...formValues, [e.target.name]: e.target.value});
-    };
-
-    const handleSubmit = e => {
-        e.preventDefault();
-        axiosWithAuth()
-        .post('/api/plants', formValues)
-        .then(res => {
-            push('/plants');
-        })
-        .catch(err => console.log({err}))
-    }
+    
+    const AddPlantForm = (props) => {
+        
+        const [state,setState] = useState({
+            nickname: "",
+            species: "",
+            h2o_frequency: "",
+}) 
+        
+        const handleChange = e => {
+            setState({
+                ...state,
+                [e.target.name]:e.target.value
+            });
+        }
+        const { push } = useHistory();
+        const handleSubmit = e => {
+            e.preventDefault();
+                props.addPlant(state);
+                push(`/plants`)
+        }
 
     return (
         <div>
             <h3>Add New Plant</h3>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="id">Id</label>
-                <input
-                    id='id'
-                    name='id'
-                    value={formValues.id}
-                    onChange={handleChanges}
-                />
+            <form>
 
                 <label htmlFor="name">Name</label>
                 <input
                     id="nickname"
                     name="nickname"
-                    value={formValues.nickname}
-                    onChange={handleChanges}
+                    value={state.nickname}
+                    onChange={handleChange}
                 />
 
                 <label htmlFor="species">Name</label>
                 <input
                     id="species"
                     name="species"
-                    value={formValues.species}
-                    onChange={handleChanges}
+                    value={state.species}
+                    onChange={handleChange}
                 />
 
-                <label htmlFor="h2oFrequency">H2OFrequency</label>
+                <label htmlFor="h2o_frequency">H2OFrequency</label>
                 <input
-                    id="h2oFrequency"
-                    name="h2oFrequency"
-                    value={formValues.h2oFrequency}
-                    onChange={handleChanges}
+                    id="h2o_frequency"
+                    name="h2o_frequency"
+                    value={state.h2o_frequency}
+                    onChange={handleChange}
                 />
-                <button>Add Plant</button>
+                <button onClick = {handleSubmit}>Add Plant</button>
             </form>
         </div>
     )
 }
 
-export default AddPlantForm;
+const mapStateToProps = state => {
+    return({
+        errorMessage: state.error
+    })
+}
+
+export default  connect(mapStateToProps, {setError, addPlant})(AddPlantForm);
